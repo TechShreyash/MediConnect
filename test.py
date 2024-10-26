@@ -23,7 +23,7 @@ med = [
     ["Furosemide 40mg", "Lasix", "12.00"],
 ]
 p = 0
-for i in med:
+for i in med[:5]:
     p += 1
     data = {
         "request_type": "add_med",

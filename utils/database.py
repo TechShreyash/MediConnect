@@ -72,5 +72,6 @@ async def update_medicine(email: str, data: dict):
 async def get_medicines(email: str):
     shop_data = await ACCOUNTDB.find_one({"email": email})
     if shop_data:
-        return shop_data["medicine"]
-    return []
+        if shop_data.get("medicine", []) != []:
+            return {"status": True, "medicine": shop_data["medicine"]}
+    return {"status": True, "medicine": []}
