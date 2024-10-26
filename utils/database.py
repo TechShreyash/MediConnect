@@ -8,61 +8,69 @@ from utils.logger import Logger
 logger = Logger(__name__)
 
 logger.info("Connecting to MongoDB")
-DB = AsyncIOMotorClient(MONGODB_URL ,tls=True, 
-    tlsCAFile=certifi.where())["MediConnect"]
+DB = AsyncIOMotorClient(MONGODB_URL, tls=True, tlsCAFile=certifi.where())["MediConnect"]
 logger.info("Connected to MongoDB")
 
 ACCOUNTDB = DB["ACCOUNTDB"]
 
 # For Login Signup
 
-async def new_auth(email: str, password: str,_type:Literal["shop","user"]):
-    if await ACCOUNTDB.find_one({"email": email},upsert=True):
-        return {'status':False, 'message':"Email already exists"}
-    
-    await ACCOUNTDB.insert_one({"email": email, "password": password,"type":_type},upsert=True)
-    return {'status':True, 'message':"Signup Successful"}
+
+async def new_auth(email: str, password: str, _type: Literal["shop", "user"]):
+    if await ACCOUNTDB.find_one({"email": email}):
+        return {"status": False, "message": "Email already exists"}
+
+    await ACCOUNTDB.insert_one({"email": email, "password": password, "type": _type})
+    return {"status": True, "message": "Signup Successful"}
+
 
 async def check_auth(email: str, password: str):
-    user = await ACCOUNTDB.find_one({"email": email},upsert=True)
+    user = await ACCOUNTDB.find_one({"email": email})
     if user:
         if user["password"] == password:
-            return {'status':True, 'message':"Login Successful"}
-        return {'status':False, 'message':"Incorrect Password"}
-    
-    return {'status':False, 'message':"Email not found"}
+            return {"status": True, "message": "Login Successful"}
+        return {"status": False, "message": "Incorrect Password"}
+
+    return {"status": False, "message": "Email not found"}
 
 
 # For Account Details
 
+
 async def update_account(email: str, data: dict):
-    await ACCOUNTDB.update_one({"email": email}, {"$set": data},upsert=True)
-    return {'status':True, 'message':"Account Updated"}
+    await ACCOUNTDB.update_one({"email": email}, {"$set": data}, upsert=True)
+    return {"status": True, "message": "Account Updated"}
+
 
 async def get_account(email: str):
-    account = await ACCOUNTDB.find_one({"email": email},upsert=True)
+    account = await ACCOUNTDB.find_one({"email": email})
     if account:
-        return {'status':True, 'data':account}
-    
-    return {'status':False, 'message':"Email not found"}
+        return {"status": True, "data": account}
+
+    return {"status": False, "message": "Email not found"}
+
 
 # for medicinces
 
-async def add_medicine(email: str, data: dict):
-    await ACCOUNTDB.update_one({"email":email},{"$push": {"medicine": data}},upsert=True)
-    return {'status':True, 'message':"Medicine added"}
 
-async def update_medicine(email: str, data:dict):
+async def add_medicine(email: str, data: dict):
     await ACCOUNTDB.update_one(
-        {"email":email,"medicine.id": data["id"]},
-        {"$set":{"medicine.$":data}},
-        upsert=True
+        {"email": email}, {"$push": {"medicine": data}}, upsert=True
     )
-    return {'status':True, 'message':"Medicine updated"}
+    return {"status": True, "message": "Medicine added"}
+
+
+async def update_medicine(email: str, data: dict):
+    await ACCOUNTDB.update_one(
+        {"email": email, "medicine.id": data["id"]},
+        {"$set": {"medicine.$": data}},
+        upsert=True,
+    )
+    return {"status": True, "message": "Medicine updated"}
+
 
 async def get_medicines(email: str):
-    shop_data = await ACCOUNTDB.find_one({"email": email},upsert=True)
+    shop_data = await ACCOUNTDB.find_one({"email": email})
     if shop_data:
         return shop_data["medicine"]
     return []
-
