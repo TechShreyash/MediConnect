@@ -30,9 +30,10 @@ async def api_auth(request: Request):
     email: str = data.get("email")
     password: str = data.get("password")
     _type = data.get("type")
+    location = data.get("location")
 
     if request_type == "new_auth":
-        results = await database.new_auth(email, password,_type)
+        results = await database.new_auth(email, password,_type,location)
     elif request_type == "check_auth":
         results = await database.check_auth(email, password)
     else:
