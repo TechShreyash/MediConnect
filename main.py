@@ -44,7 +44,7 @@ async def api_auth(request: Request):
 
 
 @app.post("/api/medicine")
-async def api_auth(request: Request):
+async def api_med(request: Request):
     data: dict = await request.json()
     logger.info(f"Med_data: {data}")
 
@@ -62,15 +62,17 @@ async def api_auth(request: Request):
 
     return results
 
+
 @app.post("/api/buy")
-async def api_auth(request: Request):
+async def api_buy(request: Request):
     data: dict = await request.json()
     logger.info(f"Med_data: {data}")
 
     request_type: Literal["buy_med"] = data.get("request_type")
     email: str = data.get("email")
     medicine_id: int = data.get("medicine_id")
-    sold_data: int = data.get("sold_data")
+    sold_quantity: int = data.get("sold_quantity")
 
     if request_type == "buy_med":
-        results = await database.buy_medicines(email, medicine_id,sold_data)
+        results = await database.buy_medicines(email, medicine_id, sold_quantity)
+    return results
