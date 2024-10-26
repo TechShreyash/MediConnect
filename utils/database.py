@@ -85,8 +85,10 @@ async def get_medicines(email: str):
             return {"status": True, "medicine": shop_data["medicine"]}
     return {"status": True, "medicine": []}
 
-async def buy_medicines(email: str, medicine_id: int, sold_data: int):
+
+async def buy_medicines(email: str, medicine_id: int, sold_quantity: int):
     await ACCOUNTDB.update_one(
         {"email": email, "medicine.id": medicine_id["id"]},
-        {"$inc":{'quantity': -sold_data,"soldunit":sold_data}}
+        {"$inc": {"quantity": -sold_quantity, "soldunit": sold_quantity}},
     )
+    return {"status": True, "message": "Medicine Sold"}
