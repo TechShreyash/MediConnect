@@ -19,7 +19,7 @@ ACCOUNTDB = DB["ACCOUNTDB"]
 async def new_auth(email: str, data):
     if await ACCOUNTDB.find_one({"email": email}):
         return {"status": False, "message": "Email already exists"}
-
+    print(data)
     await ACCOUNTDB.insert_one(data)
     return {"status": True, "message": "Signup Successful"}
 
