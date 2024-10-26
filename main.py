@@ -30,10 +30,10 @@ async def api_auth(request: Request):
     password: str = data.get("password")
 
     if request_type == "new_auth":
-        status, message = await database.new_auth(email, password)
+        results = await database.new_auth(email, password)
     elif request_type == "check_auth":
-        status, message = await database.check_auth(email, password)
+        results = await database.check_auth(email, password)
     else:
-        status, message = False, "Invalid Request Type"
+        results = False, "Invalid Request Type"
 
-    return {"status": status, "message": message}
+    return results
