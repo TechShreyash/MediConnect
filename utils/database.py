@@ -84,3 +84,9 @@ async def get_medicines(email: str):
         if shop_data.get("medicine", []) != []:
             return {"status": True, "medicine": shop_data["medicine"]}
     return {"status": True, "medicine": []}
+
+async def buy_medicines(email: str, medicine_id: int, sold_data: int):
+    await ACCOUNTDB.update_one(
+        {"email": email, "medicine.id": medicine_id["id"]},
+        {"$inc":{'quantity': -sold_data,"soldunit":sold_data}}
+    )
