@@ -34,6 +34,15 @@ async def check_auth(email: str, password: str):
     return {"status": False, "message": "Email not found"}
 
 
+async def get_shops():
+    shops = []
+    async for shop in ACCOUNTDB.find({"type": "shop"}):
+        shop.pop("_id")
+        shop.pop("password")
+        shops.append(shop)
+    return {"status": True, "shops": shops}
+
+
 # For Account Details
 
 

@@ -26,7 +26,9 @@ async def api_auth(request: Request):
     data: dict = await request.json()
     logger.info(f"Auth Data: {data}")
 
-    request_type: Literal["new_auth", "check_auth"] = data.get("request_type")
+    request_type: Literal["new_auth", "check_auth", "get_shops"] = data.get(
+        "request_type"
+    )
     email: str = data.get("email")
     password: str = data.get("password")
 
@@ -34,6 +36,9 @@ async def api_auth(request: Request):
         results = await database.new_auth(email, data)
     elif request_type == "check_auth":
         results = await database.check_auth(email, password)
+
+    elif request_type == "get_shops":
+        results = await database.get_shops()
 
     return results
 

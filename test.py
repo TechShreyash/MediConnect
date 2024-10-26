@@ -164,17 +164,20 @@ shop = [
 
 
 p = 0
-for i in shop[:5]:
+for i in shop:
     p += 1
     data = {
         "request_type": "new_auth",
         "email": f"shop{p}@gmail.com",
-        'type':'shop',
-        'location':{
-            'lat':i[1],
-            'long':i[2],
+        "type": "shop",
+        "location": {
+            "lat": i[1],
+            "long": i[2],
         },
-        
+        "name": i[0],
+        "link": i[3],
+        "password": "123",
+        "phone": "1234567890",
     }
     response = requests.post("http://127.0.0.1:8000/api/auth", json=data)
     print(response.text)
