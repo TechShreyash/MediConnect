@@ -62,7 +62,7 @@ async def api_auth(request: Request):
 
     return results
 
-@app.post("api/buy")
+@app.post("/api/buy")
 async def api_auth(request: Request):
     data: dict = await request.json()
     logger.info(f"Med_data: {data}")
