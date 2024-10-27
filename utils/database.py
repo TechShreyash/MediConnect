@@ -81,6 +81,9 @@ async def get_shops(medicine_name, user_location):
                         "price": medicine["price"],
                         "id": medicine["id"],
                         "shop_email": shop["email"],
+                        "frequency": medicine["dosage"],
+                        "sideeffect": medicine["side_effects"],
+                        "precaution": medicine["precautions"],
                     }
                     shops.append(data)
                     break
