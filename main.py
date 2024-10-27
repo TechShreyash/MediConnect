@@ -75,6 +75,9 @@ async def api_med(request: Request):
         results = await database.update_medicine(email, Med_data)
     elif request_type == "get_med":
         results = await database.get_medicines(email)
+    elif request_type=="get_all_med":
+        results = await database.get_all_medicine()
+
 
     return results
 

@@ -17,6 +17,7 @@ import math
 
 
 def calculate_distance(lat1, lon1, lat2, lon2):
+    print(lat1, lon1, lat2, lon2)
     R = 6371  # Radius of the Earth in kilometers
     dLat = math.radians(lat2 - lat1)
     dLon = math.radians(lon2 - lon1)
@@ -65,10 +66,10 @@ async def get_shops(medicine_name, user_location):
                         "shop_name": shop["name"],
                         "shop_location": shop["location"],
                         "distance": calculate_distance(
-                            user_location["lat"],
-                            user_location["lon"],
-                            shop["location"]["lat"],
-                            shop["location"]["lon"],
+                            float(user_location["lat"]),
+                            float(user_location["long"]),
+                            float(shop["location"]["lat"]),
+                            float(shop["location"]["long"]),
                         ),
                         "price": medicine["price"],
                     }
@@ -129,3 +130,14 @@ async def buy_medicines(email: str, medicine_id: int, sold_quantity: int):
         {"$inc": {"quantity": -sold_quantity, "soldunit": sold_quantity}},
     )
     return {"status": True, "message": "Medicine Sold"}
+
+
+async def get_all_medicine():
+    medicines = []
+    async for shop in ACCOUNTDB.find({"type": "shop"}):
+        print(shop)
+        if shop.get("medicine", []) != []:
+            for medicine in shop["medicine"]:
+                medicines.append(medicine["name"])
+
+    return {"status": True, "medicines": list(set(medicines))}

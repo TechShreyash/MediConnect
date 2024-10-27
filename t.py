@@ -19,5 +19,5 @@ def read_csv(file_name):
     return data
 
 # print all items of all lines
-data = read_csv('data/shops.csv')
+data = read_csv('data/med.csv')
 print(data)

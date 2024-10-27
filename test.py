@@ -1,27 +1,215 @@
 import requests
 
-med = [
-    ["Paracetamol 500mg", "Crocin", "20.00"],
-    ["Ibuprofen 400mg", "Brufen", "25.00"],
-    ["Amoxicillin 500mg", "Amoxil", "60.00"],
-    ["Metformin 500mg", "Glyciphage", "30.00"],
-    ["Atorvastatin 10mg", "Lipitor", "90.00"],
-    ["Lisinopril 10mg", "Hipril", "50.00"],
-    ["Omeprazole 20mg", "Omez", "30.00"],
-    ["Azithromycin 500mg", "Azithral", "70.00"],
-    ["Levothyroxine 50mcg", "Thyronorm", "40.00"],
-    ["Diclofenac 50mg", "Voveran", "15.00"],
-    ["Losartan 50mg", "Losar", "45.00"],
-    ["Sertraline 50mg", "Serlift", "100.00"],
-    ["Montelukast 10mg", "Montair", "70.00"],
-    ["Alprazolam 0.5mg", "Alprax", "15.00"],
-    ["Ranitidine 150mg", "Zinetac", "10.00"],
-    ["Amlodipine 5mg", "Amlong", "25.00"],
-    ["Doxycycline 100mg", "Doxicap", "60.00"],
-    ["Tramadol 50mg", "Ultram", "80.00"],
-    ["Cetirizine 10mg", "Cetzine", "15.00"],
-    ["Furosemide 40mg", "Lasix", "12.00"],
-]
+med = (
+    [
+        "Meloxicam",
+        "Mobic",
+        "20",
+        "Stomach pain, nausea, and occasional drowsiness are common with initial doses.",
+        "Avoid long-term use to reduce stomach risks. Consult doctor if experiencing prolonged discomfort.",
+        "Once daily",
+    ],
+    [
+        "Tramadol",
+        "Ultram",
+        "45",
+        "Dizziness, nausea, and constipation, especially with increased doses.",
+        "Avoid combining with other opioids. Report severe drowsiness or dizziness immediately.",
+        "Every 4-6 hours as needed",
+    ],
+    [
+        "Montelukast",
+        "Singulair",
+        "35",
+        "Drowsiness, fatigue, and occasional gastrointestinal discomfort may appear.",
+        "Avoid usage near bedtime to reduce drowsiness. Take consistently as prescribed for effectiveness.",
+        "Once daily, in the evening",
+    ],
+    [
+        "Ondansetron",
+        "Zofran",
+        "60",
+        "Headaches, stomach cramps, and rare dizziness may occur with use.",
+        "Avoid mixing with alcohol. Take at least 30 minutes before meals for maximum effect.",
+        "Every 8 hours as needed",
+    ],
+    [
+        "Acetazolamide",
+        "Diamox",
+        "40",
+        "Increased urination, nausea, or dizziness can result with high doses.",
+        "Stay hydrated to avoid electrolyte imbalance. Monitor for changes in urination frequency.",
+        "Once or twice daily",
+    ],
+    [
+        "Allopurinol",
+        "Zyloprim",
+        "50",
+        "Rash, drowsiness, or stomach cramps may appear, especially at higher doses.",
+        "Do not exceed dosage as it can lead to rash or liver issues. Take with food if GI upset occurs.",
+        "Once daily",
+    ],
+    [
+        "Amitriptyline",
+        "Elavil",
+        "38",
+        "Drowsiness, dry mouth, or blurred vision may occur with use.",
+        "Avoid tasks requiring focus after dosage due to drowsiness. Best taken in the evening.",
+        "Once daily, before bedtime",
+    ],
+    [
+        "Carvedilol",
+        "Coreg",
+        "72",
+        "Dizziness, light-headedness, or shortness of breath may occur.",
+        "Monitor blood pressure regularly. Take with meals to avoid GI discomfort.",
+        "Twice daily",
+    ],
+    [
+        "Enalapril",
+        "Vasotec",
+        "67",
+        "Dizziness, fatigue, and potential kidney issues, especially if high doses are taken.",
+        "Avoid potassium-rich foods. Regular blood pressure checks are recommended.",
+        "Once daily",
+    ],
+    [
+        "Glimepiride",
+        "Amaryl",
+        "53",
+        "Fatigue, mild nausea, or hunger can occur with altered blood sugar levels.",
+        "Monitor blood sugar regularly. Avoid if you experience consistent nausea or fatigue.",
+        "Once daily, with breakfast",
+    ],
+    [
+        "Hydrochlorothiazide",
+        "Microzide",
+        "47",
+        "Dizziness, frequent urination, and, in rare cases, light-headedness.",
+        "Avoid combining with other diuretics. Take in the morning to avoid frequent urination at night.",
+        "Once daily, in the morning",
+    ],
+    [
+        "Isosorbide",
+        "Isordil",
+        "62",
+        "Headaches, light-headedness, and in some cases, mild GI issues.",
+        "Take at least 30 minutes before meals. Avoid if prone to dizziness or light-headedness.",
+        "Twice daily",
+    ],
+    [
+        "Lamotrigine",
+        "Lamictal",
+        "58",
+        "Drowsiness, headache, or blurred vision may occur over prolonged use.",
+        "Take with water to reduce side effects. Regular blood tests may be necessary.",
+        "Once or twice daily",
+    ],
+    [
+        "Methotrexate",
+        "Rheumatrex",
+        "30",
+        "Nausea, dizziness, and potential liver issues with long-term use.",
+        "Take only as directed to avoid liver damage. Avoid alcohol during use.",
+        "Once weekly",
+    ],
+    [
+        "Naproxen",
+        "Aleve",
+        "36",
+        "Stomach cramps, heartburn, and dizziness are common with increased dosage.",
+        "Avoid prolonged use to reduce stomach upset. Monitor for consistent GI discomfort.",
+        "Every 8-12 hours as needed",
+    ],
+    [
+        "Prednisolone",
+        "Omnipred",
+        "29",
+        "Weight gain, mood changes, and upset stomach may occur during dosage changes.",
+        "Take only as prescribed. Avoid sudden changes in dosage to minimize side effects.",
+        "Once daily, in the morning",
+    ],
+    [
+        "Propranolol",
+        "Inderal",
+        "49",
+        "Fatigue, drowsiness, or light-headedness may result with dose changes.",
+        "Take consistently each day. Avoid high doses due to drowsiness risks.",
+        "Once or twice daily",
+    ],
+    [
+        "Quetiapine",
+        "Seroquel",
+        "37",
+        "Drowsiness, dizziness, or blurred vision may occur with higher doses.",
+        "Avoid alcohol as it increases drowsiness. Do not operate heavy machinery post-use.",
+        "Once daily, before bedtime",
+    ],
+    [
+        "Ranitidine",
+        "Zantac",
+        "55",
+        "Stomach discomfort, nausea, and sometimes mild drowsiness.",
+        "Avoid taking with antacids for better absorption. Take before meals if possible.",
+        "Once or twice daily",
+    ],
+    [
+        "Spironolactone",
+        "Aldactone",
+        "68",
+        "Nausea, dehydration, and in rare cases, electrolyte imbalances.",
+        "Avoid high potassium foods. Monitor blood levels if on long-term use.",
+        "Once daily, in the morning",
+    ],
+    [
+        "Sulfamethoxazole",
+        "Bactrim",
+        "52",
+        "Rash, mild dizziness, or GI discomfort may appear in sensitive individuals.",
+        "Avoid sun exposure without protection due to photosensitivity. Consult for persistent GI upset.",
+        "Twice daily",
+    ],
+    [
+        "Tamsulosin",
+        "Flomax",
+        "43",
+        "Drowsiness, light-headedness, or occasional dizziness may appear.",
+        "Avoid other alpha-blockers to reduce dizziness. Take consistently for effect.",
+        "Once daily, 30 minutes after a meal",
+    ],
+    [
+        "Valsartan",
+        "Diovan",
+        "66",
+        "Stomach upset, dizziness, or, in rare cases, liver issues with prolonged use.",
+        "Monitor blood pressure regularly. Avoid potassium supplements without doctor advice.",
+        "Once daily",
+    ],
+    [
+        "Venlafaxine",
+        "Effexor",
+        "71",
+        "Drowsiness, nausea, or sweating may appear with initial doses.",
+        "Avoid activities requiring focus post-use. Take consistently to prevent mood swings.",
+        "Once daily",
+    ],
+    [
+        "Verapamil",
+        "Calan",
+        "78",
+        "Headache, dizziness, and mild GI upset over longer periods.",
+        "Take regularly at bedtime. Avoid operating heavy machinery or driving post-use.",
+        "Once or twice daily",
+    ],
+    [
+        "Zolpidem",
+        "Ambien",
+        "60",
+        "Drowsiness, dizziness, and sometimes mild nausea in sensitive individuals.",
+        "Take regularly at bedtime. Avoid operating heavy machinery or driving post-use.",
+        "Once daily, before bedtime",
+    ],
+)
 
 shop = [
     [
@@ -59,12 +247,6 @@ shop = [
         "21.2511877",
         "81.6197072",
         "https://www.google.com/maps/place/Om+Medical+Stores/data=!4m7!3m6!1s0x3a28ddeb52581c75:0xc7cd065cbf89b961!8m2!3d21.2511877!4d81.6197072!16s%2Fg%2F11tjxm2jkd!19sChIJdRxYUuvdKDoRYbmJv1wGzcc?authuser=0&hl=en&rclk=1",
-    ],
-    [
-        "Shri Dhanvantari Generic Medical Store",
-        "21.2497222",
-        "81.6050291",
-        "https://www.google.com/maps/place/Shri+Dhanvantari+Generic+Medical+Store/data=!4m7!3m6!1s0x3a28dd5f5c1285a3:0xa163ee4a58f80b82!8m2!3d21.2497222!4d81.6050291!16s%2Fg%2F11t9jqtb5l!19sChIJo4USXF_dKDoRggv4WEruY6E?authuser=0&hl=en&rclk=1",
     ],
     [
         "Shree Laxmi Medical Store",
@@ -145,22 +327,12 @@ shop = [
         "https://www.google.com/maps/place/Care+Medical/@21.2367174,81.5995577,17z/data=!3m1!4b1!4m6!3m5!1s0x3a28de74234c40cf:0x8227f89c554dcd06!8m2!3d21.2367174!4d81.5995577!16s%2Fg%2F11s4vd5s5z?authuser=0&hl=en&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D",
     ],
 ]
-# p = 0
-# for i in med[:5]:
-#     p += 1
-#     data = {
-#         "request_type": "add_med",
-#         "email": "shop@gmail.com",
-#         "Med_data": {
-#             "id": p,
-#             "name": i[0],
-#             "brand": i[1],
-#             "quantity": 100,
-#             "price": i[2],
-#         },
-#     }
-#     response = requests.post("http://127.0.0.1:8000/api/medicine", json=data)
-#     print(response.text)
+
+import random
+
+
+def generate_random_5_digit():
+    return random.randint(10000, 99999)
 
 
 p = 0
@@ -181,3 +353,32 @@ for i in shop:
     }
     response = requests.post("http://127.0.0.1:8000/api/auth", json=data)
     print(response.text)
+
+    done = []
+
+    for l in range(10):
+        i = random.choice(med)
+        if i[0] in done:
+            continue
+
+        done.append(i[0])
+        data = {
+            "request_type": "add_med",
+            "email": f"shop{p}@gmail.com",
+            "Med_data": {
+                "id": generate_random_5_digit(),
+                "name": i[0],
+                "brand": i[1],
+                "price": int(i[2]),
+                "quantity": 100,
+                "side_effects": i[3],
+                "precautions": i[4],
+                "dosage": i[5],
+                "retail_price": int(i[2]) + 20,
+                "units_sold": 0,
+            },
+        }
+        response = requests.post("http://127.0.0.1:8000/api/medicine", json=data)
+        print(response.text)
+
+print(len(med))
