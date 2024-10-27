@@ -1,3 +1,4 @@
+from urllib.parse import unquote
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Literal
@@ -37,8 +38,23 @@ async def api_auth(request: Request):
     elif request_type == "check_auth":
         results = await database.check_auth(email, password)
 
-    elif request_type == "get_shops":
-        results = await database.get_shops()
+    return results
+
+
+@app.post("/api/shops")
+async def api_shops(request: Request):
+    data: dict = await request.json()
+    logger.info(f"Shops Data: {data}")
+
+    request_type: Literal["get_shops"] = data.get("request_type")
+
+    medicine_name = data.get("medicine_name")
+    medicine_name = unquote(medicine_name)
+
+    user_location = data.get("user_location")
+
+    if request_type == "get_shops":
+        results = await database.get_shops(medicine_name, user_location)
 
     return results
 

@@ -13,6 +13,24 @@ logger.info("Connected to MongoDB")
 
 ACCOUNTDB = DB["ACCOUNTDB"]
 
+import math
+
+
+def calculate_distance(lat1, lon1, lat2, lon2):
+    R = 6371  # Radius of the Earth in kilometers
+    dLat = math.radians(lat2 - lat1)
+    dLon = math.radians(lon2 - lon1)
+    a = (
+        math.sin(dLat / 2) ** 2
+        + math.cos(math.radians(lat1))
+        * math.cos(math.radians(lat2))
+        * math.sin(dLon / 2) ** 2
+    )
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance = R * c  # Distance in kilometers
+    return round(distance, 2)
+
+
 # For Login Signup
 
 
@@ -34,12 +52,31 @@ async def check_auth(email: str, password: str):
     return {"status": False, "message": "Email not found"}
 
 
-async def get_shops():
+async def get_shops(medicine_name, user_location):
     shops = []
     async for shop in ACCOUNTDB.find({"type": "shop"}):
         shop.pop("_id")
         shop.pop("password")
-        shops.append(shop)
+
+        if shop.get("medicine", []) != []:
+            for medicine in shop["medicine"]:
+                if medicine["name"] == medicine_name:
+                    data = {
+                        "shop_name": shop["name"],
+                        "shop_location": shop["location"],
+                        "distance": calculate_distance(
+                            user_location["lat"],
+                            user_location["lon"],
+                            shop["location"]["lat"],
+                            shop["location"]["lon"],
+                        ),
+                        "price": medicine["price"],
+                    }
+                    shops.append(data)
+                    break
+
+    shops = sorted(shops, key=lambda x: x["distance"])
+
     return {"status": True, "shops": shops}
 
 
