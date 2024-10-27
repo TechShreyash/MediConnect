@@ -79,6 +79,8 @@ async def get_shops(medicine_name, user_location):
                             float(shop["location"]["long"]),
                         ),
                         "price": medicine["price"],
+                        "id": medicine["id"],
+                        "shop_email": shop["email"],
                     }
                     shops.append(data)
                     break
@@ -132,9 +134,16 @@ async def get_medicines(email: str):
 
 
 async def buy_medicines(email: str, medicine_id: int, sold_quantity: int):
+    print(email, medicine_id, sold_quantity)
     await ACCOUNTDB.update_one(
-        {"email": email, "medicine.id": medicine_id["id"]},
-        {"$inc": {"quantity": -sold_quantity, "soldunit": sold_quantity}},
+        {"email": email, "medicine.id": int(medicine_id)},
+        {
+            "$inc": {
+                "medicine.$.quantity": (-1) * int(sold_quantity),
+                "medicine.$.units_sold": int(sold_quantity),
+            }
+        },
+        upsert=True,
     )
     return {"status": True, "message": "Medicine Sold"}
 
