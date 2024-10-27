@@ -53,6 +53,13 @@ async def check_auth(email: str, password: str):
     return {"status": False, "message": "Email not found"}
 
 
+async def check_account_type(email: str):
+    acc = await ACCOUNTDB.find_one({"email": email})
+    if acc:
+        return {"status": True, "type": acc["type"]}
+    return {"status": False, "message": "Email not found"}
+
+
 async def get_shops(medicine_name, user_location):
     shops = []
     async for shop in ACCOUNTDB.find({"type": "shop"}):

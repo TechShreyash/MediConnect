@@ -37,6 +37,8 @@ async def api_auth(request: Request):
         results = await database.new_auth(email, data)
     elif request_type == "check_auth":
         results = await database.check_auth(email, password)
+    elif request_type == "check_account_type":
+        results = await database.check_account_type(email)
 
     return results
 
