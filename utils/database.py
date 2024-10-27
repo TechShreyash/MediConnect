@@ -148,3 +148,9 @@ async def get_all_medicine():
                 medicines.append(medicine["name"])
 
     return {"status": True, "medicines": list(set(medicines))}
+
+
+async def delete_medicine(email: str, id):
+    print(id)
+    await ACCOUNTDB.update_one({"email": email}, {"$pull": {"medicine": {"id": id}}})
+    return {"status": True, "message": "Medicine Deleted"}

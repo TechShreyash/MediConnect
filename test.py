@@ -335,6 +335,10 @@ def generate_random_5_digit():
     return random.randint(10000, 99999)
 
 
+def generate_random_price():
+    return random.randint(30, 100)
+
+
 p = 0
 for i in shop:
     p += 1
@@ -362,6 +366,7 @@ for i in shop:
             continue
 
         done.append(i[0])
+        price = generate_random_price()
         data = {
             "request_type": "add_med",
             "email": f"shop{p}@gmail.com",
@@ -369,12 +374,12 @@ for i in shop:
                 "id": generate_random_5_digit(),
                 "name": i[0],
                 "brand": i[1],
-                "price": int(i[2]),
+                "price": int(price),
                 "quantity": 100,
                 "side_effects": i[3],
                 "precautions": i[4],
                 "dosage": i[5],
-                "retail_price": int(i[2]) + 20,
+                "retail_price": int(price) + 20,
                 "units_sold": 0,
             },
         }

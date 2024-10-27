@@ -66,7 +66,7 @@ async def api_med(request: Request):
     data: dict = await request.json()
     logger.info(f"Med_data: {data}")
 
-    request_type: Literal["update_med", "get_med", "add_med"] = data.get("request_type")
+    request_type: Literal["update_med", "get_med", "add_med","delete_med"] = data.get("request_type")
     email: str = data.get("email")
     Med_data: dict = data.get("Med_data")
 
@@ -77,9 +77,11 @@ async def api_med(request: Request):
         results = await database.update_medicine(email, Med_data)
     elif request_type == "get_med":
         results = await database.get_medicines(email)
-    elif request_type=="get_all_med":
+    elif request_type == "get_all_med":
         results = await database.get_all_medicine()
 
+    elif request_type == "delete_med":
+        results = await database.delete_medicine(email,data.get('id'))
 
     return results
 
